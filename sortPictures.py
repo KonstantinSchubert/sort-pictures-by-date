@@ -17,7 +17,7 @@ def getDate(url):
 			return  datetime.strptime(str(exif[34853][29]),'%Y:%m:%d').date()
 	except Exception as e:
 		print "Problem with exif data:"+str(e)
-		print "Now using file creating time"
+		print "Now using file creation time"
 		return datetime.fromtimestamp(os.stat(url).st_mtime)
 
 		
