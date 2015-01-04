@@ -32,9 +32,9 @@ os.chdir(".")
 
 for ending in ["jpeg","JPG","avi","AVI","mp4","jpg"]:
 	for fileName in glob.glob("*."+ending):
+		print "sorting "+ fileName
 		try:
 		    date = getDate(fileName)	    
-		    print "sorting "+ fileName
 		    targetdir = str(basedir+date.strftime("%Y/%m %B")+"/")
 		    if not os.path.isdir(targetdir):
 		    	os.makedirs(targetdir)
