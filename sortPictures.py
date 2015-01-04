@@ -7,18 +7,24 @@ import os
 
 
 def getDate(url):
-	img = Image.open(url)
-	exif = img._getexif()
-	try:
-		date = datetime.strptime(exif[36867],'%Y:%m:%d  %H:%M:%S').date()
-	except KeyError:
-		# looking for "date modified"
-		try:
-			date = datetime.strptime(str(exif[34853][29]),'%Y:%m:%d').date()
-		except KeyError:
-			raise Exception("No fitting EXIF data found")
+	try: 
+		img = Image.open(url)
+		
+		exif = img._getexif()
+		if exif:
+			# looking for ?? (I forgot)
+			if 36867 in exif:
+				return  datetime.strptime(exif[36867],'%Y:%m:%d  %H:%M:%S').date()
+			if 34853 in exif:
+				# looking for "date modified"	
+				return  datetime.strptime(str(exif[34853][29]),'%Y:%m:%d').date()
+		else:
+			# try to get file creation time:
+			return datetime.fromtimestamp(os.stat(url).st_mtime)
+	except Exception as e:
+		print ("Date of picture could not be determined ("+str(e)+")")
 
-	return date
+		
 
 
 basedir = "../Bilder/"
