@@ -10,18 +10,15 @@ def getDate(url):
 	try: 
 		img = Image.open(url)		
 		exif = img._getexif()
-		if exif:
-			if 36867 in exif:
-				return  datetime.strptime(exif[36867],'%Y:%m:%d  %H:%M:%S').date()
-			if 34853 in exif:
-				# looking for "date modified"	
-				return  datetime.strptime(str(exif[34853][29]),'%Y:%m:%d').date()
-
-		#else  try to get file creation time:
-		return datetime.fromtimestamp(os.stat(url).st_mtime)
-
+		if 36867 in exif:
+			return  datetime.strptime(exif[36867],'%Y:%m:%d  %H:%M:%S').date()
+		if 34853 in exif:
+			# looking for "date modified"	
+			return  datetime.strptime(str(exif[34853][29]),'%Y:%m:%d').date()
 	except Exception as e:
-		raise Exception("Date of picture could not be determined ("+str(e)+")")
+		print "Problem with exif data:"+str(e)
+		print "Now using file creating time"
+		return datetime.fromtimestamp(os.stat(url).st_mtime)
 
 		
 
