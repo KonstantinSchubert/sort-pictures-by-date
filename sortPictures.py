@@ -20,20 +20,23 @@ def getDate(url):
 		print "Now using file creation time"
 		return datetime.fromtimestamp(os.stat(url).st_mtime)
 
+def sort(sourceDir, targetDir):
+	os.chdir(sourceDir)
+
+
+	for ending in ["jpeg","JPG","avi","AVI","mp4","jpg"]:
+		for fileName in glob.glob("*."+ending):
+			print "sorting "+ fileName
+			try:
+			    date = getDate(fileName)	    
+			    targetdir = str(targetDir+date.strftime("%Y/%m %B")+"/")
+			    if not os.path.isdir(targetdir):
+			    	os.makedirs(targetdir)
+			    os.rename(fileName,targetdir+fileName)
+			except Exception as e:
+				print " error with "+fileName+ ": "+str(e)
+
+
+if __name__ == '__main__':
+	sort()
 		
-
-
-basedir = "../Bilder/"
-os.chdir(".")
-
-for ending in ["jpeg","JPG","avi","AVI","mp4","jpg"]:
-	for fileName in glob.glob("*."+ending):
-		print "sorting "+ fileName
-		try:
-		    date = getDate(fileName)	    
-		    targetdir = str(basedir+date.strftime("%Y/%m %B")+"/")
-		    if not os.path.isdir(targetdir):
-		    	os.makedirs(targetdir)
-		    os.rename(fileName,targetdir+fileName)
-		except Exception as e:
-			print " error with "+fileName+ ": "+str(e)
