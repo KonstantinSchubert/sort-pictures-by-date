@@ -1,16 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""
-ZetCode PyQt4 tutorial 
 
-This example shows an icon
-in the titlebar of the window.
-
-author: Jan Bodnar
-website: zetcode.com 
-last edited: October 2011
-"""
 
 import sys
 from PyQt4 import QtGui
@@ -26,15 +17,33 @@ class SortPicturesUi(QtGui.QWidget):
         
     def initUI(self):
 
-    	sortButton = QtGui.QPushButton('Sort', self)
-    	sortButton.clicked.connect(sortNow)
+        self.setGeometry(100, 100, 250, 150)
+        self.center()
+        self.setWindowTitle('Icon')
+
+
+        sortButton.clicked.connect(sortNow)
+        sortButton.clicked.connect(self.showDialog)
         sortButton.resize(sortButton.sizeHint())
         sortButton.move(50, 50)       
         
-        self.setGeometry(300, 300, 250, 150)
-        self.setWindowTitle('Icon')
-    
         self.show()
+    
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QtGui.QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+        FOR OPENING A QFileDialog
+        # someButtonp = QtGui.QPushButton("Sort",self)
+    # def showDialog(self):
+
+    #     fname = QtGui.QFileDialog.getOpenFileName(self, 'Open file', 
+    #             '/home')
+
+
+
 
 def sortNow():
     sortPictures.sort("/home/kon/sort-pictures-by-date/","/home/kon/sort-pictures-by-date/")
