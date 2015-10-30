@@ -11,7 +11,6 @@ def getDate(url):
 		img = Image.open(url)
 		exif = img._getexif()
 		if 36867 in exif:
-			print "fount1"
 			return  datetime.strptime(exif[36867],'%Y:%m:%d  %H:%M:%S').date()
 		if 34853 in exif:
 			print ' looking for "date modified" '
